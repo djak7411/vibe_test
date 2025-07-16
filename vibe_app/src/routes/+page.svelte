@@ -1,60 +1,89 @@
 <script lang="ts">
-  import { db } from '$lib/db';
-  import type { Contact, Company } from '$lib/types';
   import { onMount } from 'svelte';
+  import { contactStore } from '$lib/stores/contactStore';
+  import { companyStore } from '$lib/stores/companyStore';
+  import ContactForm from '$lib/components/ContactForm.svelte';
+  import CompanyForm from '$lib/components/CompanyForm.svelte';
+  import type { Contact, Company } from '$lib/types';
+
   let contacts: Contact[] = [];
   let companies: Company[] = [];
-  let newContact: Partial<Contact> = {};
-  let newCompany: string = '';
+  let showContactForm = false;
+  let showEditContactForm = false;
+  let contactToEdit: Partial<Contact> = {};
 
-  onMount(async () => {
-    contacts = await db.contacts.toArray();
-    companies = await db.companies.toArray();
+  onMount(() => {
+    contactStore.load();
+    companyStore.load();
+    contactStore.subscribe((v) => contacts = v);
+    companyStore.subscribe((v) => companies = v);
   });
 
-  async function addCompany() {
-    if (newCompany.trim()) {
-      await db.companies.add({ name: newCompany });
-      companies = await db.companies.toArray();
-      newCompany = '';
-    }
+  function handleAddContact() {
+    contactToEdit = {};
+    showContactForm = true;
+    showEditContactForm = false;
   }
 
-  async function addContact() {
-    if (newContact.name && newContact.phone && newContact.email && newContact.companyId) {
-      await db.contacts.add(newContact as Contact);
-      contacts = await db.contacts.toArray();
-      newContact = {};
+  function handleEditContact(contact: Contact) {
+    contactToEdit = { ...contact };
+    showEditContactForm = true;
+    showContactForm = false;
+  }
+
+  function handleContactSubmit({ contact }: { contact: Partial<Contact> }) {
+    if (showEditContactForm && contact.id) {
+      contactStore.update(contact.id, contact);
+    } else {
+      contactStore.add(contact as Omit<Contact, 'id'>);
     }
+    showContactForm = false;
+    showEditContactForm = false;
+  }
+
+  function handleContactCancel() {
+    showContactForm = false;
+    showEditContactForm = false;
+  }
+
+  function handleCompanySubmit({ name }: { name: string }) {
+    companyStore.add({ name });
   }
 </script>
 
-<h2>Компании</h2>
-<ul>
+<h2 class="text-xl font-bold mb-2">Компании</h2>
+<ul class="mb-4">
   {#each companies as company}
     <li>{company.name}</li>
   {/each}
 </ul>
-<input bind:value={newCompany} placeholder="Новая компания" />
-<button on:click={addCompany}>Добавить компанию</button>
+<CompanyForm submit={handleCompanySubmit} />
 
-<h2>Контакты</h2>
+<h2 class="text-xl font-bold mt-8 mb-2">Контакты</h2>
+<button class="btn btn-primary mb-4" on:click={handleAddContact}>Добавить контакт</button>
+
+{#if showContactForm}
+  <ContactForm
+    companies={companies}
+    submit={handleContactSubmit}
+    cancel={handleContactCancel}
+  />
+{/if}
+{#if showEditContactForm}
+  <ContactForm
+    companies={companies}
+    contact={contactToEdit}
+    isEdit={true}
+    submit={handleContactSubmit}
+    cancel={handleContactCancel}
+  />
+{/if}
+
 <ul>
   {#each contacts as contact}
-    <li>
-      {contact.name} | {contact.phone} | {contact.email} | 
-      {companies.find(c => c.id === contact.companyId)?.name}
+    <li class="mb-2">
+      {contact.name} | {contact.phone} | {contact.email} | {companies.find(c => c.id === contact.companyId)?.name}
+      <button class="btn btn-xs btn-secondary ml-2" on:click={() => handleEditContact(contact)}>Редактировать</button>
     </li>
   {/each}
 </ul>
-
-<input bind:value={newContact.name} placeholder="Имя" />
-<input bind:value={newContact.phone} placeholder="Телефон" />
-<input bind:value={newContact.email} placeholder="Email" />
-<select bind:value={newContact.companyId}>
-  <option value="" disabled selected>Выберите компанию</option>
-  {#each companies as company}
-    <option value={company.id}>{company.name}</option>
-  {/each}
-</select>
-<button on:click={addContact}>Добавить контакт</button>
