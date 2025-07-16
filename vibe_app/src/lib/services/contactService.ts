@@ -1,5 +1,5 @@
 import { db } from '../db';
-import type { Contact } from '../db';
+import type { Contact } from '../types';
 
 export async function getContacts(): Promise<Contact[]> {
   return db.contacts.toArray();

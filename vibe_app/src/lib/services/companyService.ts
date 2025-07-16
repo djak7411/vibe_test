@@ -1,5 +1,5 @@
 import { db } from '../db';
-import type { Company } from '../db';
+import type { Company } from '../types';
 
 export async function getCompanies(): Promise<Company[]> {
   return db.companies.toArray();

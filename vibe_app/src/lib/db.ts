@@ -1,18 +1,6 @@
 import Dexie from 'dexie';
 import type { Table } from 'dexie';
-
-export interface Company {
-  id?: number;
-  name: string;
-}
-
-export interface Contact {
-  id?: number;
-  name: string;
-  phone: string;
-  email: string;
-  companyId: number;
-}
+import type { Contact, Company } from './types';
 
 class MyAppDB extends Dexie {
   contacts!: Table<Contact, number>;
