@@ -58,10 +58,10 @@
 <ErrorToast message={error} visible={showError} onClose={closeToast} />
 <form class="flex flex-col gap-2 p-4 bg-white rounded shadow w-full max-w-md mx-auto" on:submit|preventDefault={handleSubmit}>
   <h3 class="text-lg font-bold mb-2">{isEdit ? 'Редактировать контакт' : 'Добавить контакт'}</h3>
-  <input class="input input-bordered" bind:value={localContact.name} placeholder="Имя" required />
-  <input class="input input-bordered" bind:value={localContact.phone} placeholder="Телефон" required on:input={handlePhoneInput} maxlength="16" />
-  <input class="input input-bordered" bind:value={localContact.email} placeholder="Email" required type="email" />
-  <select class="input input-bordered" bind:value={localContact.companyId} required>
+  <input class="input input-bordered bg-gray-100 p-2 rounded-md" bind:value={localContact.name} placeholder="Имя" required />
+  <input class="input input-bordered bg-gray-100 p-2 rounded-md" bind:value={localContact.phone} placeholder="Телефон" required on:input={handlePhoneInput} maxlength="16" />
+  <input class="input input-bordered bg-gray-100 p-2 rounded-md" bind:value={localContact.email} placeholder="Email" required type="email" />
+  <select class="input input-bordered bg-gray-100 p-2 rounded-md" bind:value={localContact.companyId} required>
     <option value="" disabled selected>Выберите компанию</option>
     {#each companies as company}
       <option value={company.id}>{company.name}</option>

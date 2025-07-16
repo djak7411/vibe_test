@@ -41,6 +41,6 @@
 <ErrorToast message={error} visible={showError} onClose={closeToast} />
 
 <form class="flex flex-row gap-2 p-2" on:submit|preventDefault={handleSubmit}>
-  <input class="input input-bordered" bind:value={name} placeholder="Новая компания" required />
+  <input class="input input-bordered bg-gray-100 p-2 rounded-md" bind:value={name} placeholder="Новая компания" required />
   <button class="btn btn-primary" type="submit">{company && company.id ? 'Сохранить' : 'Добавить'}</button>
 </form> 

@@ -57,7 +57,7 @@
         <button class="btn btn-xs btn-secondary flex-1 sm:flex-none mr-0 sm:mr-4 cursor-pointer items-center gap-1 group/edit" title="Редактировать" on:click={() => onEdit(contact)}>
           Редактировать
         </button>
-        <button class="btn btn-xs btn-error flex-1 sm:flex-none sm:mr-4 cursor-pointer items-center gap-1 group/delete" title="Удалить" on:click={() => handleDeleteClick(contact)}>
+        <button class="btn btn-xs btn-error flex-1 sm:flex-none sm:mr-4 cursor-pointer items-center gap-1 group/delete" title="Удалить" aria-label="Удалить контакт" on:click={() => handleDeleteClick(contact)}>
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
         </button>
       </div>
