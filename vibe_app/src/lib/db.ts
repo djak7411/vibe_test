@@ -1,4 +1,5 @@
-import Dexie, { Table } from 'dexie';
+import Dexie from 'dexie';
+import type { Table } from 'dexie';
 
 export interface Company {
   id?: number;
@@ -13,10 +14,9 @@ export interface Contact {
   companyId: number;
 }
 
-export class MyAppDB extends Dexie {
+class MyAppDB extends Dexie {
   contacts!: Table<Contact, number>;
   companies!: Table<Company, number>;
-
   constructor() {
     super('MyAppDB');
     this.version(1).stores({
