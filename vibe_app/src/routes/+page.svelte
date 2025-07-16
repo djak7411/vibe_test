@@ -114,15 +114,15 @@
 </script>
 
 <h2 class="text-xl font-bold mb-2">Компании</h2>
+<button class="btn btn-primary mb-4 ml-40 cursor-pointer font-bold" on:click={openCompanyForm}>Добавить компанию</button>
 <CompanyList companies={companies} onEdit={handleEditCompany} />
-<button class="btn btn-primary mb-4" on:click={openCompanyForm}>Добавить компанию</button>
 <Modal visible={showCompanyForm} onClose={closeCompanyForm}>
   <CompanyForm submit={handleCompanySubmit} company={companyToEdit} />
 </Modal>
 
 <h2 class="text-xl font-bold mt-8 mb-2">Контакты</h2>
 <SearchBar value={searchQuery} onInput={handleSearchInput} />
-<button class="btn btn-primary mb-4" on:click={handleAddContact}>Добавить контакт</button>
+<button class="btn btn-primary mb-4 cursor-pointer font-bold" on:click={handleAddContact}>Добавить контакт</button>
 
 <Modal visible={showContactForm} onClose={handleContactCancel}>
   <ContactForm

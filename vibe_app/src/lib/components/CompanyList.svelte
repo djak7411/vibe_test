@@ -35,17 +35,22 @@
 </script>
 
 {#if companies.length === 0}
-  <div class="flex flex-col py-8 text-gray-400">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 01.88 7.88M8 7a4 4 0 00-.88 7.88M12 17v2m0 0h-2m2 0h2" /></svg>
-    <div>Нет компаний</div>
+  <div class="flex flex-col py-12 text-gray-400">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 01.88 7.88M8 7a4 4 0 00-.88 7.88M12 17v2m0 0h-2m2 0h2" /></svg>
+    <div class="text-lg font-medium">Нет компаний</div>
+    <div class="text-sm mt-1">Добавьте первую компанию, чтобы начать!</div>
   </div>
 {:else}
-<ul>
+<ul class="divide-y divide-gray-100 rounded-lg shadow bg-white max-w-4xl">
   {#each companies as company}
-    <li class="mb-2 flex items-center gap-2">
-      <span class="flex-1">{company.name}</span>
-      <button class="btn btn-xs btn-secondary" on:click={() => onEdit(company)}>Редактировать</button>
-      <button class="btn btn-xs btn-error" on:click={() => handleDeleteClick(company)}>Удалить</button>
+    <li class="flex items-center gap-2 px-4 py-3 hover:bg-gray-50 transition group">
+      <span class="flex-1 font-semibold">{company.name}</span>
+      <button class="btn btn-xs btn-secondary flex mr-4 cursor-pointer items-center gap-1 group/edit" title="Редактировать" on:click={() => onEdit(company)}>
+        Редактировать
+      </button>
+      <button class="btn btn-xs btn-error flex cursor-pointer items-center gap-1 group/delete" title="Удалить" on:click={() => handleDeleteClick(company)}>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+      </button>
     </li>
   {/each}
 </ul>
