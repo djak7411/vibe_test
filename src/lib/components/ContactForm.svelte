@@ -7,10 +7,10 @@
   export let submit: (event: { contact: Partial<Contact> }) => void;
   export let cancel: () => void;
   let localContact: Partial<Contact> = { ...contact };
-  let error = '';
-  let showError = false;
+  let error: string = '';
+  let showError: boolean = false;
 
-  function validate() {
+  function validate(): boolean {
     if (!localContact.name || !localContact.phone || !localContact.email || !localContact.companyId) {
       error = 'Пожалуйста, заполните все поля';
       return false;
@@ -28,7 +28,7 @@
     return true;
   }
 
-  function handlePhoneInput(event: Event) {
+  function handlePhoneInput(event: Event): void {
     let value = (event.target as HTMLInputElement).value.replace(/\D/g, '');
     if (value.startsWith('7')) value = value.slice(1); // убираем лишнюю 7 если пользователь ввёл её вручную
     value = value.slice(0, 10); // максимум 10 цифр после +7
@@ -40,7 +40,7 @@
     localContact.phone = formatted;
   }
 
-  function handleSubmit() {
+  function handleSubmit(): void {
     if (validate()) {
       submit({ contact: localContact });
       localContact = {};
@@ -48,10 +48,10 @@
       showError = true;
     }
   }
-  function handleCancel() {
+  function handleCancel(): void {
     cancel();
   }
-  function closeToast() {
+  function closeToast(): void {
     showError = false;
   }
 </script>
@@ -68,9 +68,6 @@
     {/each}
   </select>
   <div class="flex gap-2 mt-2">
-    <button class="btn btn-primary" type="submit">{isEdit ? 'Сохранить' : 'Добавить'}</button>
-    {#if isEdit}
-      <button class="btn btn-secondary" type="button" on:click={handleCancel}>Отмена</button>
-    {/if}
+    <button class="btn btn-primary cursor-pointer" type="submit">{isEdit ? 'Сохранить' : 'Добавить'}</button>
   </div>
 </form> 

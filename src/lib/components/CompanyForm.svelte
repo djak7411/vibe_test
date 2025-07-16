@@ -4,9 +4,9 @@
   import ErrorToast from './ErrorToast.svelte';
   export let submit: (event: { name: string }) => void;
   export let company: Partial<Company> = {};
-  let name = '';
-  let error = '';
-  let showError = false;
+  let name: string = '';
+  let error: string = '';
+  let showError: boolean = false;
 
   onMount(() => {
     name = company?.name || '';
@@ -14,7 +14,7 @@
   $: if (company && company.name !== undefined) {
     name = company.name;
   }
-  function validate() {
+  function validate(): boolean {
     if (!name.trim()) {
       error = 'Введите название компании';
       return false;
@@ -25,7 +25,7 @@
     }
     return true;
   }
-  function handleSubmit() {
+  function handleSubmit(): void {
     if (validate()) {
       submit({ name });
       name = '';
@@ -33,7 +33,7 @@
       showError = true;
     }
   }
-  function closeToast() {
+  function closeToast(): void {
     showError = false;
   }
 </script>
@@ -42,5 +42,5 @@
 
 <form class="flex flex-row gap-2 p-2" on:submit|preventDefault={handleSubmit}>
   <input class="input input-bordered bg-gray-100 p-2 rounded-md" bind:value={name} placeholder="Новая компания" required />
-  <button class="btn btn-primary" type="submit">{company && company.id ? 'Сохранить' : 'Добавить'}</button>
+  <button class="btn btn-primary cursor-pointer" type="submit">{company && company.id ? 'Сохранить' : 'Добавить'}</button>
 </form> 

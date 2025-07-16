@@ -5,7 +5,7 @@
 
 {#if visible}
   <div class="fixed inset-0 z-50 flex items-center justify-center">
-    <div class="absolute inset-0 bg-black/40" on:click={onClose}></div>
+    <button type="button" class="absolute inset-0 bg-black/40" on:click={onClose} on:keydown={(e) => (e.key === 'Enter' || e.key === ' ') && onClose()} tabindex="0" aria-label="Закрыть модальное окно"></button>
     <div class="relative bg-white rounded-xl shadow-xl p-6 min-w-[320px] max-w-full animate-modal-in">
       <button class="absolute top-2 right-2 text-2xl text-gray-400 hover:text-gray-600" on:click={onClose} aria-label="Закрыть">&times;</button>
       <slot />

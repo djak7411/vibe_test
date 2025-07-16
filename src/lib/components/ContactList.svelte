@@ -7,16 +7,16 @@
   export let companies: Company[] = [];
   export let onEdit: (contact: Contact) => void;
 
-  let showDeleteModal = false;
+  let showDeleteModal: boolean = false;
   let contactToDelete: Contact | null = null;
-  let toastMessage = '';
-  let showToast = false;
+  let toastMessage: string = '';
+  let showToast: boolean = false;
 
-  function handleDeleteClick(contact: Contact) {
+  function handleDeleteClick(contact: Contact): void {
     contactToDelete = contact;
     showDeleteModal = true;
   }
-  function confirmDelete() {
+  function confirmDelete(): void {
     if (contactToDelete && contactToDelete.id !== undefined) {
       contactStore.remove(contactToDelete.id);
       showToastMessage('Контакт удалён');
@@ -24,11 +24,11 @@
     showDeleteModal = false;
     contactToDelete = null;
   }
-  function cancelDelete() {
+  function cancelDelete(): void {
     showDeleteModal = false;
     contactToDelete = null;
   }
-  function showToastMessage(msg: string) {
+  function showToastMessage(msg: string): void {
     toastMessage = msg;
     showToast = true;
     setTimeout(() => showToast = false, 2000);

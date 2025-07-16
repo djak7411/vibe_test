@@ -6,16 +6,16 @@
   export let companies: Company[] = [];
   export let onEdit: (company: Company) => void;
 
-  let showDeleteModal = false;
+  let showDeleteModal: boolean = false;
   let companyToDelete: Company | null = null;
-  let toastMessage = '';
-  let showToast = false;
+  let toastMessage: string = '';
+  let showToast: boolean = false;
 
-  function handleDeleteClick(company: Company) {
+  function handleDeleteClick(company: Company): void {
     companyToDelete = company;
     showDeleteModal = true;
   }
-  function confirmDelete() {
+  function confirmDelete(): void {
     if (companyToDelete && companyToDelete.id !== undefined) {
       companyStore.remove(companyToDelete.id);
       showToastMessage('Компания удалена');
@@ -23,11 +23,11 @@
     showDeleteModal = false;
     companyToDelete = null;
   }
-  function cancelDelete() {
+  function cancelDelete(): void {
     showDeleteModal = false;
     companyToDelete = null;
   }
-  function showToastMessage(msg: string) {
+  function showToastMessage(msg: string): void {
     toastMessage = msg;
     showToast = true;
     setTimeout(() => showToast = false, 2000);
