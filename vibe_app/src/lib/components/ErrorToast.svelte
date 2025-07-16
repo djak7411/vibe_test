@@ -6,7 +6,7 @@
 
 {#if visible}
   <div
-    class="absolute right-0 top-0 mt-2 mr-2 text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-4 animate-fade-in z-50"
+    class="fixed right-0 top-0 mt-8 mr-8 text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-4 animate-fade-in z-50"
     style="background: rgba(220, 38, 38, 0.8); min-width:220px;"
   >
     <span class="flex-1">{message}</span>

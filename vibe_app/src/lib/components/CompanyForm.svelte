@@ -28,10 +28,8 @@
   }
 </script>
 
-<div class="relative">
-  <ErrorToast message={error} visible={showError} onClose={closeToast} />
-  <form class="flex flex-row gap-2 p-2" on:submit|preventDefault={handleSubmit}>
-    <input class="input input-bordered" bind:value={name} placeholder="Новая компания" required />
-    <button class="btn btn-primary" type="submit">Добавить</button>
-  </form> 
-</div>
+<ErrorToast message={error} visible={showError} onClose={closeToast} />
+<form class="flex flex-row gap-2 p-2" on:submit|preventDefault={handleSubmit}>
+  <input class="input input-bordered" bind:value={name} placeholder="Новая компания" required />
+  <button class="btn btn-primary" type="submit">Добавить</button>
+</form> 

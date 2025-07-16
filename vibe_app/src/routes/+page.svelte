@@ -4,12 +4,14 @@
   import { companyStore } from '$lib/stores/companyStore';
   import ContactForm from '$lib/components/ContactForm.svelte';
   import CompanyForm from '$lib/components/CompanyForm.svelte';
+  import Modal from '$lib/components/Modal.svelte';
   import type { Contact, Company } from '$lib/types';
 
   let contacts: Contact[] = [];
   let companies: Company[] = [];
   let showContactForm = false;
   let showEditContactForm = false;
+  let showCompanyForm = false;
   let contactToEdit: Partial<Contact> = {};
 
   onMount(() => {
@@ -48,6 +50,14 @@
 
   function handleCompanySubmit({ name }: { name: string }) {
     companyStore.add({ name });
+    showCompanyForm = false;
+  }
+
+  function openCompanyForm() {
+    showCompanyForm = true;
+  }
+  function closeCompanyForm() {
+    showCompanyForm = false;
   }
 </script>
 
@@ -57,19 +67,22 @@
     <li>{company.name}</li>
   {/each}
 </ul>
-<CompanyForm submit={handleCompanySubmit} />
+<button class="btn btn-primary mb-4" on:click={openCompanyForm}>Добавить компанию</button>
+<Modal visible={showCompanyForm} onClose={closeCompanyForm}>
+  <CompanyForm submit={handleCompanySubmit} />
+</Modal>
 
 <h2 class="text-xl font-bold mt-8 mb-2">Контакты</h2>
 <button class="btn btn-primary mb-4" on:click={handleAddContact}>Добавить контакт</button>
 
-{#if showContactForm}
+<Modal visible={showContactForm} onClose={handleContactCancel}>
   <ContactForm
     companies={companies}
     submit={handleContactSubmit}
     cancel={handleContactCancel}
   />
-{/if}
-{#if showEditContactForm}
+</Modal>
+<Modal visible={showEditContactForm} onClose={handleContactCancel}>
   <ContactForm
     companies={companies}
     contact={contactToEdit}
@@ -77,7 +90,7 @@
     submit={handleContactSubmit}
     cancel={handleContactCancel}
   />
-{/if}
+</Modal>
 
 <ul>
   {#each contacts as contact}
