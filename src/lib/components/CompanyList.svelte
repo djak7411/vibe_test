@@ -45,7 +45,7 @@
   {#each companies as company}
     <li class="flex flex-row sm:flex-row items-start sm:items-center gap-2 px-2 sm:px-4 py-3 hover:bg-gray-50 transition group">
       <span class="flex-1 font-semibold w-full sm:w-auto">{company.name}</span>
-      <div class="flex gap-2 w-full sm:w-auto">
+      <div class="flex gap-2 sm:w-auto">
         <button class="btn btn-xs btn-secondary flex-1 sm:flex-none mr-0 sm:mr-4 cursor-pointer items-center gap-1 group/edit" title="Редактировать" on:click={() => onEdit(company)}>
           Редактировать
         </button>

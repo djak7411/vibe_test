@@ -53,7 +53,7 @@
           <div class="break-all">{companies.find(c => c.id === contact.companyId)?.name}</div>
         </div>
       </span>
-      <div class="flex gap-2 w-full sm:w-auto">
+      <div class="flex gap-2 sm:w-auto">
         <button class="btn btn-xs btn-secondary flex-1 sm:flex-none mr-0 sm:mr-4 cursor-pointer items-center gap-1 group/edit" title="Редактировать" on:click={() => onEdit(contact)}>
           Редактировать
         </button>
