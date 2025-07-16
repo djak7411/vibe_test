@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { db, type Contact, type Company } from '$lib/db';
+  import { db } from '$lib/db';
+  import type { Contact, Company } from '$lib/types';
   import { onMount } from 'svelte';
   let contacts: Contact[] = [];
   let companies: Company[] = [];
