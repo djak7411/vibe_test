@@ -6,6 +6,8 @@
   import CompanyForm from '$lib/components/CompanyForm.svelte';
   import Modal from '$lib/components/Modal.svelte';
   import SearchBar from '$lib/components/SearchBar.svelte';
+  import Toast from '$lib/components/ErrorToast.svelte';
+  import ContactList from '$lib/components/ContactList.svelte';
   import { searchContacts } from '$lib/utils/search';
   import type { Contact, Company } from '$lib/types';
 
@@ -17,6 +19,9 @@
   let showEditContactForm = false;
   let showCompanyForm = false;
   let contactToEdit: Partial<Contact> = {};
+  let toastMessage = '';
+  let showToast = false;
+  let toastType: 'error' | 'success' = 'success';
 
   onMount(() => {
     contactStore.load();
@@ -55,8 +60,10 @@
   function handleContactSubmit({ contact }: { contact: Partial<Contact> }) {
     if (showEditContactForm && contact.id) {
       contactStore.update(contact.id, contact);
+      showToastMessage('Контакт обновлён', 'success');
     } else {
       contactStore.add(contact as Omit<Contact, 'id'>);
+      showToastMessage('Контакт добавлен', 'success');
     }
     showContactForm = false;
     showEditContactForm = false;
@@ -70,6 +77,7 @@
   function handleCompanySubmit({ name }: { name: string }) {
     companyStore.add({ name });
     showCompanyForm = false;
+    showToastMessage('Компания добавлена', 'success');
   }
 
   function openCompanyForm() {
@@ -77,6 +85,13 @@
   }
   function closeCompanyForm() {
     showCompanyForm = false;
+  }
+
+  function showToastMessage(msg: string, type: 'error' | 'success' = 'success') {
+    toastMessage = msg;
+    toastType = type;
+    showToast = true;
+    setTimeout(() => showToast = false, 2000);
   }
 </script>
 
@@ -112,11 +127,10 @@
   />
 </Modal>
 
-<ul>
-  {#each filteredContacts as contact}
-    <li class="mb-2">
-      {contact.name} | {contact.phone} | {contact.email} | {companies.find(c => c.id === contact.companyId)?.name}
-      <button class="btn btn-xs btn-secondary ml-2" on:click={() => handleEditContact(contact)}>Редактировать</button>
-    </li>
-  {/each}
-</ul>
+<Toast message={toastMessage} visible={showToast} onClose={() => showToast = false} type={toastType} />
+
+<ContactList
+  contacts={filteredContacts}
+  companies={companies}
+  onEdit={handleEditContact}
+/>
