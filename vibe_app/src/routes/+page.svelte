@@ -8,6 +8,7 @@
   import SearchBar from '$lib/components/SearchBar.svelte';
   import Toast from '$lib/components/ErrorToast.svelte';
   import ContactList from '$lib/components/ContactList.svelte';
+  import CompanyList from '$lib/components/CompanyList.svelte';
   import { searchContacts } from '$lib/utils/search';
   import type { Contact, Company } from '$lib/types';
 
@@ -19,6 +20,7 @@
   let showEditContactForm = false;
   let showCompanyForm = false;
   let contactToEdit: Partial<Contact> = {};
+  let companyToEdit: Partial<Company> = {};
   let toastMessage = '';
   let showToast = false;
   let toastType: 'error' | 'success' = 'success';
@@ -74,17 +76,33 @@
     showEditContactForm = false;
   }
 
+  function handleAddCompany() {
+    companyToEdit = {};
+    showCompanyForm = true;
+  }
+  function handleEditCompany(company: Company) {
+    companyToEdit = { ...company };
+    showCompanyForm = true;
+  }
+
   function handleCompanySubmit({ name }: { name: string }) {
-    companyStore.add({ name });
+    if (companyToEdit && companyToEdit.id) {
+      companyStore.update(companyToEdit.id, { name });
+      showToastMessage('Компания обновлена', 'success');
+    } else {
+      companyStore.add({ name });
+      showToastMessage('Компания добавлена', 'success');
+    }
     showCompanyForm = false;
-    showToastMessage('Компания добавлена', 'success');
+    companyToEdit = {};
   }
 
   function openCompanyForm() {
-    showCompanyForm = true;
+    handleAddCompany();
   }
   function closeCompanyForm() {
     showCompanyForm = false;
+    companyToEdit = {};
   }
 
   function showToastMessage(msg: string, type: 'error' | 'success' = 'success') {
@@ -96,14 +114,10 @@
 </script>
 
 <h2 class="text-xl font-bold mb-2">Компании</h2>
-<ul class="mb-4">
-  {#each companies as company}
-    <li>{company.name}</li>
-  {/each}
-</ul>
+<CompanyList companies={companies} onEdit={handleEditCompany} />
 <button class="btn btn-primary mb-4" on:click={openCompanyForm}>Добавить компанию</button>
 <Modal visible={showCompanyForm} onClose={closeCompanyForm}>
-  <CompanyForm submit={handleCompanySubmit} />
+  <CompanyForm submit={handleCompanySubmit} company={companyToEdit} />
 </Modal>
 
 <h2 class="text-xl font-bold mt-8 mb-2">Контакты</h2>
