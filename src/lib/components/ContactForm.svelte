@@ -11,7 +11,7 @@
   let showError: boolean = false;
 
   function validate(): boolean {
-    if (!localContact.name || !localContact.phone || !localContact.email || !localContact.companyId) {
+    if (!localContact.name || !localContact.phone || !localContact.email) {
       error = 'Пожалуйста, заполните все поля';
       return false;
     }
@@ -48,9 +48,7 @@
       showError = true;
     }
   }
-  function handleCancel(): void {
-    cancel();
-  }
+
   function closeToast(): void {
     showError = false;
   }
@@ -61,7 +59,7 @@
   <input class="input input-bordered bg-gray-100 p-2 rounded-md" bind:value={localContact.name} placeholder="Имя" required />
   <input class="input input-bordered bg-gray-100 p-2 rounded-md" bind:value={localContact.phone} placeholder="Телефон" required on:input={handlePhoneInput} maxlength="16" />
   <input class="input input-bordered bg-gray-100 p-2 rounded-md" bind:value={localContact.email} placeholder="Email" required type="email" />
-  <select class="input input-bordered bg-gray-100 p-2 rounded-md" bind:value={localContact.companyId} required>
+  <select class="input input-bordered bg-gray-100 p-2 rounded-md" bind:value={localContact.companyId}>
     <option value="" disabled selected>Выберите компанию</option>
     {#each companies as company}
       <option value={company.id}>{company.name}</option>

@@ -1,38 +1,21 @@
-# sv
+# Список контактов
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+## Запуск проекта
 
-## Creating a project
+```npm run dev```
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Сборка проекта
 
-```bash
-# create a new project in the current directory
-npx sv create
+```npm run build```
 
-# create a new project in my-app
-npx sv create my-app
-```
+## Интерфейс
 
-## Developing
+![image](images/interface.png)
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+# Функции приложения
 
-```bash
-npm run dev
+Добавление, редактирование, удаление и отображение компаний. По нажатию на "Добавить компанию" можно ввести название компании и сохранить ее (сохраняется в indexedDB).
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+Добавление, редактирование, удаление и отображение контактов. Для того, чтобы добавить контакт, нужно нажать на "Добавить контакт", ввести данные, выбрать компанию (если есть) и нажать "Добавить".
 
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Для разработки использовался Cursor. С помощью него было инициализировано приложение, спроектирована архитектура, реализованы компоненты Svelte и верстка.
