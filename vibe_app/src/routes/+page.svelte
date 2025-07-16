@@ -5,10 +5,14 @@
   import ContactForm from '$lib/components/ContactForm.svelte';
   import CompanyForm from '$lib/components/CompanyForm.svelte';
   import Modal from '$lib/components/Modal.svelte';
+  import SearchBar from '$lib/components/SearchBar.svelte';
+  import { searchContacts } from '$lib/utils/search';
   import type { Contact, Company } from '$lib/types';
 
   let contacts: Contact[] = [];
   let companies: Company[] = [];
+  let filteredContacts: Contact[] = [];
+  let searchQuery = '';
   let showContactForm = false;
   let showEditContactForm = false;
   let showCompanyForm = false;
@@ -17,9 +21,24 @@
   onMount(() => {
     contactStore.load();
     companyStore.load();
-    contactStore.subscribe((v) => contacts = v);
-    companyStore.subscribe((v) => companies = v);
+    contactStore.subscribe((v) => {
+      contacts = v;
+      filterContacts();
+    });
+    companyStore.subscribe((v) => {
+      companies = v;
+      filterContacts();
+    });
   });
+
+  function filterContacts() {
+    filteredContacts = searchContacts(contacts, companies, searchQuery);
+  }
+
+  function handleSearchInput(val: string) {
+    searchQuery = val;
+    filterContacts();
+  }
 
   function handleAddContact() {
     contactToEdit = {};
@@ -73,6 +92,7 @@
 </Modal>
 
 <h2 class="text-xl font-bold mt-8 mb-2">Контакты</h2>
+<SearchBar value={searchQuery} onInput={handleSearchInput} />
 <button class="btn btn-primary mb-4" on:click={handleAddContact}>Добавить контакт</button>
 
 <Modal visible={showContactForm} onClose={handleContactCancel}>
@@ -93,7 +113,7 @@
 </Modal>
 
 <ul>
-  {#each contacts as contact}
+  {#each filteredContacts as contact}
     <li class="mb-2">
       {contact.name} | {contact.phone} | {contact.email} | {companies.find(c => c.id === contact.companyId)?.name}
       <button class="btn btn-xs btn-secondary ml-2" on:click={() => handleEditContact(contact)}>Редактировать</button>
