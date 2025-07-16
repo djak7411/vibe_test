@@ -34,6 +34,12 @@
   }
 </script>
 
+{#if companies.length === 0}
+  <div class="flex flex-col py-8 text-gray-400">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 01.88 7.88M8 7a4 4 0 00-.88 7.88M12 17v2m0 0h-2m2 0h2" /></svg>
+    <div>Нет компаний</div>
+  </div>
+{:else}
 <ul>
   {#each companies as company}
     <li class="mb-2 flex items-center gap-2">
@@ -43,6 +49,7 @@
     </li>
   {/each}
 </ul>
+{/if}
 
 <Modal visible={showDeleteModal} onClose={cancelDelete}>
   <div class="p-4 text-center">

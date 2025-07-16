@@ -35,6 +35,12 @@
   }
 </script>
 
+{#if contacts.length === 0}
+  <div class="flex flex-col py-8 text-gray-400">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-7a4 4 0 11-8 0 4 4 0 018 0zm-8 4h8" /></svg>
+    <div>Нет контактов</div>
+  </div>
+{:else}
 <ul>
   {#each contacts as contact}
     <li class="mb-2 flex items-center gap-2">
@@ -44,6 +50,7 @@
     </li>
   {/each}
 </ul>
+{/if}
 
 <Modal visible={showDeleteModal} onClose={cancelDelete}>
   <div class="p-4 text-center">
