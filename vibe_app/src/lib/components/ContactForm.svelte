@@ -55,24 +55,24 @@
     showError = false;
   }
 </script>
-
-<ErrorToast message={error} visible={showError} onClose={closeToast} />
-
-<form class="flex flex-col gap-2 p-4 bg-white rounded shadow w-full max-w-md mx-auto" on:submit|preventDefault={handleSubmit}>
-  <h3 class="text-lg font-bold mb-2">{isEdit ? 'Редактировать контакт' : 'Добавить контакт'}</h3>
-  <input class="input input-bordered" bind:value={localContact.name} placeholder="Имя" required />
-  <input class="input input-bordered" bind:value={localContact.phone} placeholder="Телефон" required on:input={handlePhoneInput} maxlength="16" />
-  <input class="input input-bordered" bind:value={localContact.email} placeholder="Email" required type="email" />
-  <select class="input input-bordered" bind:value={localContact.companyId} required>
-    <option value="" disabled selected>Выберите компанию</option>
-    {#each companies as company}
-      <option value={company.id}>{company.name}</option>
-    {/each}
-  </select>
-  <div class="flex gap-2 mt-2">
-    <button class="btn btn-primary" type="submit">{isEdit ? 'Сохранить' : 'Добавить'}</button>
-    {#if isEdit}
-      <button class="btn btn-secondary" type="button" on:click={handleCancel}>Отмена</button>
-    {/if}
-  </div>
-</form> 
+<div class="relative">
+  <ErrorToast message={error} visible={showError} onClose={closeToast} />
+  <form class="flex flex-col gap-2 p-4 bg-white rounded shadow w-full max-w-md mx-auto" on:submit|preventDefault={handleSubmit}>
+    <h3 class="text-lg font-bold mb-2">{isEdit ? 'Редактировать контакт' : 'Добавить контакт'}</h3>
+    <input class="input input-bordered" bind:value={localContact.name} placeholder="Имя" required />
+    <input class="input input-bordered" bind:value={localContact.phone} placeholder="Телефон" required on:input={handlePhoneInput} maxlength="16" />
+    <input class="input input-bordered" bind:value={localContact.email} placeholder="Email" required type="email" />
+    <select class="input input-bordered" bind:value={localContact.companyId} required>
+      <option value="" disabled selected>Выберите компанию</option>
+      {#each companies as company}
+        <option value={company.id}>{company.name}</option>
+      {/each}
+    </select>
+    <div class="flex gap-2 mt-2">
+      <button class="btn btn-primary" type="submit">{isEdit ? 'Сохранить' : 'Добавить'}</button>
+      {#if isEdit}
+        <button class="btn btn-secondary" type="button" on:click={handleCancel}>Отмена</button>
+      {/if}
+    </div>
+  </form> 
+</div>
